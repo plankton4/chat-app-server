@@ -18,27 +18,6 @@ var FirebaseApp *firebase.App
 func SetupFCM() {
 	log.Println("INIT FIREBASE")
 	FirebaseApp = initializeAppWithServiceAccount()
-
-	badge := 1
-	sound := "default"
-
-	iptoken := []string{"fVEaWXndgUjJt2mJKcdaPd:APA91bGwbhvIlSbpRQkdm9CSDm02rSodbRIdSKnEwq_SqIyshYPkjzbthX9rz7Zig15LbwQt2bvM6GOl9CZ0mjc3VaCsDK77AnjeJr8e__k8GAZWD9CwYWfX7pawczytc_3jywusHnCG"}
-
-	SendMulticast(
-		FirebaseApp,
-		iptoken, //[]string{"coWx0HCFrkaNv9GoPp1lr9:APA91bGv-smoymxlS6MGkcmQDWEuzHPo1a7uMW0L2bAwQDwh1lZI9wqBHRkqDuY6tNagR3b4OwreaR4T1AVBNa5TCGtysYJNW2ocp2f-KyW0mwu3asWAFqYWo8MXfu6J9vhj5zO1rJls"},
-		messaging.Notification{
-			Title: "Duck",
-			Body:  "Hi!",
-		},
-		messaging.Aps{
-			Badge: &badge,
-			Sound: sound,
-		},
-		map[string]string{},
-	)
-
-	//go sendToToken(FirebaseApp, "")
 }
 
 func initializeAppWithServiceAccount() *firebase.App {

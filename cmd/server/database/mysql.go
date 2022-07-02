@@ -84,10 +84,6 @@ func OpenDatabase() *sql.DB {
 		log.Println("OpenDatabase, error when creating Users table", err)
 	}
 
-	// _, _ = db.Exec(`
-	// 	ALTER TABLE Users ADD INDEX userIdIndex (user_id);
-	// `)
-
 	//
 	// SessionKeys
 	//
@@ -103,10 +99,6 @@ func OpenDatabase() *sql.DB {
 		log.Println("OpenDatabase, error when creating SessionKeys table", err)
 	}
 
-	// _, _ = db.Exec(`
-	// 	ALTER TABLE SessionKeys ADD INDEX userIdIndex (user_id);
-	// `)
-
 	//
 	// FCMTokens
 	//
@@ -121,10 +113,6 @@ func OpenDatabase() *sql.DB {
 	if err != nil {
 		log.Println("OpenDatabase, error when creating FCMTokens table", err)
 	}
-
-	// _, _ = db.Exec(`
-	// 	ALTER TABLE FCMTokens ADD INDEX userIdIndex (user_id);
-	// `)
 
 	return db
 }

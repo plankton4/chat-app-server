@@ -4,12 +4,15 @@ import (
 	"database/sql"
 	"errors"
 	"log"
+	"math"
 
 	"github.com/plankton4/chat-app-server/cmd/server/database"
 	"github.com/plankton4/chat-app-server/cmd/server/misc"
 )
 
-func RegistrationUser(socnetID string) (userID uint32, sessionKey string, err error) {
+const GuestUserID = math.MaxUint32
+
+func RegistrationUser(regID string) (userID uint32, sessionKey string, err error) {
 
 	userID, err = GetNewUserId()
 	if err != nil {
@@ -30,7 +33,7 @@ func RegistrationUser(socnetID string) (userID uint32, sessionKey string, err er
 			(user_id, apple_id)
 		VALUES
 			(?, ?)
-	`, userID, socnetID)
+	`, userID, regID)
 
 	if err != nil {
 		log.Printf("RegistrationUser Insert users err:%v \n", err.Error())
@@ -124,4 +127,32 @@ func SubscribeToPush(userID uint32, token string) error {
 	}
 
 	return err
+}
+
+func CreateGuestUser() {
+
+	var sessionKey = "guestkey"
+
+	_, err := database.MainDB.Exec(`
+		INSERT INTO SessionKeys 
+			(user_id, session_key)
+		VALUES
+			(?, ?)
+		ON DUPLICATE KEY UPDATE session_key = ?;
+	`, GuestUserID, sessionKey, sessionKey)
+
+	if err != nil {
+		log.Println("CreateGuestUser insert into SessionKeys err: ", err.Error())
+	}
+
+	_, err = database.MainDB.Exec(`
+		INSERT INTO Users 
+			(user_id, apple_id, name)
+		VALUES
+			(?, ?, ?)
+	`, GuestUserID, "apple", "GuestDuck")
+
+	if err != nil {
+		log.Println("CreateGuestUser insert into Users err: ", err.Error())
+	}
 }

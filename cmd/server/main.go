@@ -11,6 +11,7 @@ import (
 	"github.com/plankton4/chat-app-server/cmd/server/fcm"
 	"github.com/plankton4/chat-app-server/cmd/server/misc"
 	"github.com/plankton4/chat-app-server/cmd/server/network"
+	"github.com/plankton4/chat-app-server/cmd/server/user"
 )
 
 var addr = flag.String("addr", ":8048", "http service address")
@@ -44,6 +45,10 @@ func main() {
 
 	mongodb.RunDB()
 	defer mongodb.Disconnect()
+
+	// hardcoded user for testing purposes.
+	// Client app knows about this user's SessionKey and UserID.
+	user.CreateGuestUser()
 
 	// FCM
 	fcm.SetupFCM()
