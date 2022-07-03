@@ -5,17 +5,17 @@ import "log"
 type HubID uint32
 
 const (
-	HubGeneralChat HubID = 100
-	HubSpamChat    HubID = 1000
-	HubCabinetSS   HubID = 1001
-	Hub1001Task    HubID = 1002
+	HubGeneralChat    HubID = 1
+	HubMemesChat      HubID = 2
+	HubMoviesChat     HubID = 3
+	HubVideoGamesChat HubID = 4
 )
 
 var testHubs = []HubID{
 	HubGeneralChat,
-	HubSpamChat,
-	HubCabinetSS,
-	Hub1001Task,
+	HubMemesChat,
+	HubMoviesChat,
+	HubVideoGamesChat,
 }
 
 // Hub maintains the set of active clients and broadcasts messages to the

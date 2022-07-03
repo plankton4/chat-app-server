@@ -136,7 +136,7 @@ func HandleSendChatMessage(client *Client, req *pb.SendChatMessageReq) {
 	//
 	// Sending push notifications
 	//
-	if toChatID != nil && *toChatID != uint32(HubSpamChat) {
+	if toChatID != nil {
 		subs, err := GetSubscribers(*toChatID)
 		if err != nil {
 			log.Println("Error while finding subs ", err.Error())
@@ -153,13 +153,8 @@ func HandleSendChatMessage(client *Client, req *pb.SendChatMessageReq) {
 
 		if tokens != nil {
 			//log.Println("Found Tokens ", tokens)
-			badge := 0
-			sound := ""
-
-			if *toChatID != uint32(HubSpamChat) {
-				badge = 1
-				sound = "default"
-			}
+			badge := 1
+			sound := "default"
 
 			fcm.SendMulticast(
 				fcm.FirebaseApp,

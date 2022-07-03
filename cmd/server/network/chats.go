@@ -8,51 +8,56 @@ import (
 	"github.com/plankton4/chat-app-server/pb"
 )
 
-var ChatsDataByID = map[HubID]pb.ChatData{
+var ChatsDataByID = map[HubID]*pb.ChatData{
 	HubGeneralChat: {
 		ChatID: uint32(HubGeneralChat),
-		Title:  "Русский чат",
+		Title:  "General",
+		IconURL: func() *string {
+			url := "https://raw.githubusercontent.com/plankton4/files/main/kermit.jpeg"
+			return &url
+		}(),
 	},
-	HubSpamChat: {
-		ChatID: uint32(HubSpamChat),
-		Title:  "СпамЧат",
+	HubMemesChat: {
+		ChatID: uint32(HubMemesChat),
+		Title:  "Memes",
+		IconURL: func() *string {
+			url := "https://raw.githubusercontent.com/plankton4/files/main/doge_laugh.jpeg"
+			return &url
+		}(),
 	},
-	HubCabinetSS: {
-		ChatID: uint32(HubCabinetSS),
-		Title:  "Кабинет 🤙",
+	HubMoviesChat: {
+		ChatID: uint32(HubMoviesChat),
+		Title:  "Movies",
+		IconURL: func() *string {
+			url := "https://raw.githubusercontent.com/plankton4/files/main/waltz.jpeg"
+			return &url
+		}(),
 	},
-	Hub1001Task: {
-		ChatID: uint32(Hub1001Task),
-		Title:  "1001 задача 🍆",
+	HubVideoGamesChat: {
+		ChatID: uint32(HubVideoGamesChat),
+		Title:  "Video Games",
+		IconURL: func() *string {
+			url := "https://raw.githubusercontent.com/plankton4/files/main/ellie_tlou2.jpg"
+			return &url
+		}(),
 	},
 }
 
 func HandleGetChatList(client *Client, rowID uint32, req *pb.GetChatListReq) {
 	var errString string
 
+	var chats []*pb.ChatData
+
+	for _, hubID := range testHubs {
+		chats = append(chats, ChatsDataByID[hubID])
+	}
+
 	pbMess := &pb.PBMessage{
 		RowID:  rowID,
 		ErrStr: &errString,
 		InternalMessage: &pb.PBMessage_MessGetChatListResp{
 			MessGetChatListResp: &pb.GetChatListResp{
-				Chats: []*pb.ChatData{
-					{
-						ChatID: uint32(HubGeneralChat),
-						Title:  ChatsDataByID[HubGeneralChat].Title,
-					},
-					{
-						ChatID: uint32(HubSpamChat),
-						Title:  ChatsDataByID[HubSpamChat].Title,
-					},
-					{
-						ChatID: uint32(HubCabinetSS),
-						Title:  ChatsDataByID[HubCabinetSS].Title,
-					},
-					{
-						ChatID: uint32(Hub1001Task),
-						Title:  ChatsDataByID[Hub1001Task].Title,
-					},
-				},
+				Chats: chats,
 			},
 		},
 	}
