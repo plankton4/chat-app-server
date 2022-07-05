@@ -14,11 +14,11 @@ import (
 
 const (
 	localAddr  = "localhost:3306"
-	remoteAddr = config.RemoteMySQLAddress
+	remoteAddr = config.RemoteMysqlAddress
 
-	username = "plankton4"
-	password = "plankton4_pass"
-	dbname   = "chatapp"
+	dbname   = config.MysqlDbName
+	username = config.MysqlUsername
+	password = config.MysqlPassword
 )
 
 var hostname string

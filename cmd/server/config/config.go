@@ -2,10 +2,12 @@ package config
 
 const (
 	RemoteServerAddress = "google.com" // WORK
-	RemoteMySQLAddress  = "google.com" // WORK
-	RemoteMongoAddress  = "google.com" // WORK
 
-	// ImageSaverAddress address of image saver service.
-	// TODO: insert address of repo here!
-	ImageSaverAddress = "localhost:8049"
+	RemoteMysqlAddress = "google.com" // WORK
+	MysqlDbName        = "chatapp"
+	MysqlUsername      = "plankton4"
+	MysqlPassword      = "plankton4_pass"
+
+	RemoteMongoAddress = "google.com" // WORK
+	MongoDbName        = "chatapp"
 )

@@ -13,7 +13,7 @@ import (
 )
 
 const (
-	dbname = "chatapp"
+	dbname = config.MongoDbName
 )
 
 const (

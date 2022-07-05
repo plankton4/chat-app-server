@@ -1,22 +1,15 @@
 package network
 
 import (
-	"bytes"
-	"context"
-	"encoding/base64"
-	"encoding/json"
 	"io"
-	"io/ioutil"
 	"log"
 	"net/http"
-	"time"
 
-	"github.com/plankton4/chat-app-server/cmd/server/config"
+	"github.com/plankton4/chat-app-server/cmd/server/filesaver"
 )
 
 const (
 	maxUploadSize = 10 * 1024 * 1024 // 10MB
-	uploadURL     = "http://" + config.ImageSaverAddress + "/uploadimage"
 )
 
 func WorkUploadImage(w http.ResponseWriter, r *http.Request) {
@@ -55,50 +48,14 @@ func WorkUploadImage(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	base64file := base64.StdEncoding.EncodeToString(fileBuffer)
-
-	values := map[string]string{
-		"B64":       base64file,
-		"Extension": ".jpg",
-	}
-	jsonData, err := json.Marshal(values)
+	imageUrl, err := filesaver.SaveImage(fileBuffer, ".jpg")
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return
 	}
 
-	ctx, cancel := context.WithTimeout(context.Background(), time.Second*10)
-	defer cancel()
-
-	req, err := http.NewRequestWithContext(ctx, http.MethodPost, uploadURL, bytes.NewBuffer(jsonData))
-	if err != nil {
-		//return nil, errors.WithMessage(err, "cannot prepare apple public keys request")
-		log.Fatalln("Error when creating req ", err)
-	}
-
-	log.Println("Send request to imageSaver")
-
-	resp, err := http.DefaultClient.Do(req)
-	if err != nil {
-		http.Error(w, err.Error(), http.StatusInternalServerError)
-		return
-	}
-
-	defer func() {
-		if resp.Body != nil {
-			resp.Body.Close()
-		}
-	}()
-
-	responseBody, err := ioutil.ReadAll(resp.Body)
-
-	if err != nil {
-		http.Error(w, err.Error(), http.StatusInternalServerError)
-		return
-	}
-
-	log.Println("RESP ", string(responseBody))
+	log.Println("SAVED IMAGE URL ", imageUrl)
 
 	w.WriteHeader(http.StatusOK)
-	w.Write(responseBody)
+	w.Write([]byte(imageUrl))
 }

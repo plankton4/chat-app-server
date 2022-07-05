@@ -1,6 +1,7 @@
 /.idea
 /logs
 /vendor
+/cmd/server/static
 
 # Binaries for programs and plugins
 *.exe

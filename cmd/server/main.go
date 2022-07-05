@@ -36,6 +36,9 @@ func main() {
 
 	log.Println("CONNECTED TO REMOTE? ", misc.IsConnectedToRemoteServer())
 
+	fileServer := http.FileServer(http.Dir("./static/"))
+	mux.Handle("/static/", http.StripPrefix("/static", fileServer))
+
 	// launch hubs
 	network.SetupHubs()
 
