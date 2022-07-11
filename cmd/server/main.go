@@ -28,7 +28,6 @@ func main() {
 	mux.HandleFunc("/pingservaddr", network.PingServerAddr())
 	mux.HandleFunc("/applesigninauth", network.AppleSignInAuthHandler())
 	mux.HandleFunc("/endregistration", network.RegistrationEndHandler())
-	mux.HandleFunc("/lastvideo", network.GetLastVideoHandler())
 	mux.HandleFunc("/uploadimage", network.UploadImageHandler())
 	mux.HandleFunc("/ws", func(w http.ResponseWriter, r *http.Request) {
 		network.ServeWs(w, r)

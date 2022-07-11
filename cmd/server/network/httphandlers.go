@@ -137,10 +137,6 @@ func PingServerAddr() http.HandlerFunc {
 	}
 }
 
-func GetLastVideoHandler() http.HandlerFunc {
-	return GetLastVideo()
-}
-
 func AppleSignInAuthHandler() http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		reqData := NewRequestData(w, r, r.URL.Path)
